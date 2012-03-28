@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Raphaël Test</title>
+<script src="raphael-min.js"></script>
+<style media="screen">
+  body {
+      background: #333;
+      color: #fff;
+      font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+  }
+  h1 {
+      font-weight: 400;
+      height: 5%;
+  }
+  #canvas {
+      height: 480px;
+      margin: 0 auto;
+      text-align: left;
+      width: 480px;
+      background: #fff;
+  }
+</style>
+<script>
+  window.onload = function () {
+  var paper = Raphael("canvas", 480, 480);
+  
+  paper.path("M160 320L160 160 M160 160L320 240 M320 240L160 320");
+  paper.circle(120, 200, 2);
+  paper.path("M120 200 L159.370078740158 200");
+  paper.circle(240, 320, 2);
+  paper.path("M240 320 L279.370078740158 320").rotate(270, 240, 320);
+  paper.circle(120, 280, 2);
+  paper.path("M120 280 L159.370078740158 280");
+  paper.circle(240, 160, 2);
+  paper.path("M240 160 L279.370078740158 160").rotate(90, 240, 160);
+  paper.circle(360, 240, 2);
+  paper.path("M360 240 L399.370078740158 240").rotate(180, 360, 240);
+  paper.text(172, 282, "-").attr({'text-anchor': 'start','font-family':'helvetica','font-size':'20'});
+  paper.text(172, 198, "+").attr({'text-anchor': 'start','font-family':'helvetica','font-size':'20'});
+  paper.text(272, 290, "+V").attr({'text-anchor': 'start','font-family':'helvetica','font-size':'20'});
+  paper.text(272, 162, "GND").attr({'text-anchor': 'start','font-family':'helvetica','font-size':'20'});
+
+
+};
+</script>
+</head>
+
+<body id="index" class="home">
+<h1>Raphaël Test</h1>
+<div id="canvas"></div>
+</body>
+</html>
