@@ -1,4 +1,7 @@
 #!/usr/bin/perl -w
+#
+# Generate the raphael (raphaeljs.com) javascript for various shapes
+#
 
 package raphael;
 use Exporter;

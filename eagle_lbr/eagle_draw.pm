@@ -1,4 +1,8 @@
 #!/usr/bin/perl -w
+#
+# This file has functions for drawing parts of eagle symbols using the raphael
+# perl module
+#
 
 package eagle_draw;
 use List::Util qw(max min);
@@ -17,15 +21,20 @@ $pin_length{short} = 2.5;
 $pin_length{middle} = 5;
 
 sub draw_set_origin_from_xml {
+  # Get all of the dimensions found in the xml
   my @matches = $_[0] =~ m/(?:x1|x2|y1|y2|x|y)=\"([+-]?[0-9.]+)\"/g;
   my $canvas_size = $_[1];
-    
+  
+  # Get the largest and smalles dimesions found
+  # Multiply by 1.5 to make the canvas slightly bigger than the part
   my $max = max(@matches)*1.5;
   my $min = min(@matches)*1.5;
-    
+  
+  # Compute the center position (eagle choordinates can be negative)
   $base_x = (($max - $min)/2);
   $base_y = (($max - $min)/2);
   
+  # Make sure we stretch out to fill the canvas
   $base_scale = $canvas_size / (2*$max);  
 }
 
@@ -41,10 +50,12 @@ sub draw_text {
 
 sub draw_wires {
   my @path ;
-  foreach my $wire (@{$_[0]}) {
-    
+  
+  # Make a list of all the lines to use only one draw path command
+  foreach my $wire (@{$_[0]}) {    
     unshift @path, "M" . ($wire->{x1} + $base_x) * $base_scale . " " . ($wire->{y1} + $base_y) * $base_scale . "L" . ($wire->{x2} + $base_x) * $base_scale . " " . ($wire->{y2} + $base_y) * $base_scale;
-  }  
+  }
+  
   @path = reverse @path;
           
   return raphael_path( @path ) . ";\n";
@@ -58,9 +69,10 @@ sub draw_pin {
   my $output = "";
   
   # Draw circle at the end of the pin
+  # TODO: Make circle radius variable
   $output = $output . raphael_circle ((($pin->{x} + $base_x) * $base_scale), (($pin->{y} + $base_y) * $base_scale), 2) . ";\n";
   
-  # Draw Pin
+  # Draw Pin Line
   $output = $output . raphael_line( (($pin->{x} + $base_x) * $base_scale),
                 (($pin->{y} + $base_y) * $base_scale),
                 (($pin->{x} + $pin_length{$pin->{length}} + $base_x) * $base_scale),
@@ -80,6 +92,8 @@ sub draw_pin {
                     (($pin->{y} + $base_y) * $base_scale));
   }
   $output = $output . ";\n";
+  
+  #TODO Draw pin labels
   
   return $output;
   
